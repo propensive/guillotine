@@ -72,7 +72,7 @@ class Process[T](process: java.lang.Process, executor: Executor[T]):
   def stderr(limit: ByteSize = 10.mb): DataStream =
     Util.readInputStream(process.getErrorStream.nn, limit)
   
-  def stdin(in: DataStream): Unit throws StreamCutError = Util.write(in, process.getOutputStream.nn)
+  def stdin(in: DataStream): Unit = Util.write(in, process.getOutputStream.nn)
   def await(): T = executor.interpret(process)
   def exitStatus(): ExitStatus = process.waitFor() match
     case 0     => ExitStatus.Ok
